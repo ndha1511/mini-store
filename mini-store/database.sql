@@ -1,6 +1,6 @@
-create database saleDb;
+create database ministore;
 
-use saleDb;
+use ministore;
 
 create table users(
     id int primary key auto_increment,

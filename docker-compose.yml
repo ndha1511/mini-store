@@ -1,0 +1,59 @@
+version: '3.7'
+services:
+  mysql8-container:
+    container_name: mysql8-container
+    image: mysql:8.2.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: miniStore
+    ports:
+      - 3308:3306
+    volumes:
+      - ./mini-store/database.sql:/docker-entrypoint-initdb.d/init-script.sql
+    networks:
+      - mini-store_network
+  phpmyadmin8-container:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin8-container
+    restart: always
+    depends_on:
+      - mysql8-container
+    ports:
+      - 8100:80
+    environment:
+      PMA_HOST: mysql8-container
+    networks:
+      - mini-store_network
+  ministore-spring-container:
+    container_name: ministore-spring-container
+    build: 
+      context: .
+      dockerfile: DockerFileBackend
+    ports:
+      - 8099:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql8-container:3306/ministore?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      MYSQL_ROOT_PASSWORD: 123456
+    depends_on:
+      - mysql8-container
+    networks:
+      - mini-store_network
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:8080/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+networks:
+  mini-store_network:
+    driver: bridge
+
+
+# build mysql 
+# docker-compose -f ./docker-compose.yml up -d mysql8-container
+
+# open mysql on bash
+# docker exec -it mysql8-container bash
+   
+      
