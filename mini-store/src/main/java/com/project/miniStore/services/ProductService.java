@@ -127,5 +127,10 @@ public class ProductService implements IProductService{
 
     }
 
+    @Override
+    public Page<Product> getAllByCategoryId(Long categoryId, PageRequest pageRequest) {
+        return productRepository.getAllByCategoryId(categoryId, pageRequest);
+    }
+
 
 }

@@ -10,3 +10,19 @@
     flex-wrap: wrap; 
     justify-content: center;
 }
+
+.pagination {
+    /* width: 100%; */
+    display: flex;
+    justify-content: center;
+
+}
+
+.box-sort {
+    display: flex;
+}
+
+.empty-product {
+    display: flex;
+    height: 500px;
+}

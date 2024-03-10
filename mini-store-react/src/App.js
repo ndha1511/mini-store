@@ -20,7 +20,7 @@ function App() {
           return (
             <Route key={index} path={route.path} element={
               <Layout >
-                <Page />
+                <Page cb={route.getData} categoryId={route.categoryId ? route.categoryId : null}/>
               </Layout>
             }></Route>
           )

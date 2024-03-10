@@ -27,6 +27,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -100,9 +101,13 @@ public class ProductController {
 
     @GetMapping("")
     public ResponseEntity<?> getAll(@RequestParam("page") int page,
-                                    @RequestParam("limit") int limit) {
-        PageRequest pageRequest = PageRequest.of(page, limit,
-                Sort.by("createdAt").descending());
+                                    @RequestParam("limit") int limit,
+                                    @RequestParam("sort_by") Optional<String> sort,
+                                    @RequestParam("desc")  Optional<Boolean> desc
+        ) {
+        boolean des = desc.orElse(true);
+        String sortBy = sort.orElse("createdAt");
+        PageRequest pageRequest = configPageRequest(page, limit, sortBy, des);
         Page<Product> productsPage = productService.getAllProducts(pageRequest);
         int totalPage = productsPage.getTotalPages();
         List<Product> products = productsPage.getContent();
@@ -111,6 +116,34 @@ public class ProductController {
                 .totalPage(totalPage)
                 .build();
         return ResponseEntity.ok(productsResponse);
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<?> getByCategoryId(@PathVariable Long categoryId,
+                                             @RequestParam("page") int page,
+                                             @RequestParam("limit") int limit,
+                                             @RequestParam("sort_by") Optional<String> sort,
+                                             @RequestParam("desc")  Optional<Boolean> desc
+                                             ) {
+        boolean des = desc.orElse(true);
+        String sortBy = sort.orElse("createdAt");
+        PageRequest pageRequest = configPageRequest(page, limit, sortBy, des);
+        Page<Product> productsPage = productService.getAllByCategoryId(categoryId, pageRequest);
+        int totalPage = productsPage.getTotalPages();
+        List<Product> products = productsPage.getContent();
+        ProductsResponse productsResponse = ProductsResponse.builder()
+                .products(products)
+                .totalPage(totalPage)
+                .build();
+        return ResponseEntity.ok(productsResponse);
+
+    }
+
+    private PageRequest configPageRequest(int page, int limit, String sort, boolean desc) {
+        return desc ? PageRequest.of(page, limit,
+                Sort.by(sort).descending()) :
+                PageRequest.of(page, limit,
+                        Sort.by(sort));
     }
 
     @GetMapping("/{id}")

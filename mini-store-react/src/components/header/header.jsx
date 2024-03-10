@@ -4,7 +4,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import './header.css';
 import { Button, Form } from 'react-bootstrap';
+
 function Header() {
+    
     return (
         <Navbar expand="lg" className="bg-body-tertiary container-fluid" fixed='top'>
             <Container fluid className='bg-info'>
@@ -15,14 +17,15 @@ function Header() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className='bg-info'>
                     <Nav className="me-5">
-                        <Nav.Link href="/">Trang chủ</Nav.Link>
+                        <Nav.Link href="/trang-chu">Trang chủ</Nav.Link>
                         <Nav.Link href="#link">Sản phẩm bán chạy</Nav.Link>
                         <NavDropdown title="Danh mục" id="basic-nav-dropdown" className='dropdown'>
-                            <NavDropdown.Item href="#action/3.1">Đồ điện tử</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">
+                            <NavDropdown.Item href='/do-dien-tu'>Đồ điện tử</NavDropdown.Item>
+                            <NavDropdown.Item  href='/do-gia-dung'>
                                 Đồ gia dụng
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Linh tinh</NavDropdown.Item>
+                            <NavDropdown.Item  href='/quan-ao'>Quần áo</NavDropdown.Item>
+                            <NavDropdown.Item  href='/banh-keo'>Bánh kẹo</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                     <Form className="search-box me-auto">

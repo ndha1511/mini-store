@@ -21,4 +21,5 @@ public interface IProductService {
     ProductImage createProductImage(Long productId, ProductImageDTO productImageDTO) throws Exception;
     List<ProductImage> getImagesByProductId(Long productId) throws Exception;
     void deleteImgByPublicId(String publicId, Long id);
+    Page<Product> getAllByCategoryId(Long categoryId, PageRequest pageRequest);
 }
