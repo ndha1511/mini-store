@@ -1,0 +1,12 @@
+.wrapper {
+    margin-top: 60px;  
+    display: flex;
+    flex-direction: column;
+}
+.list-products {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    justify-content: center;
+}

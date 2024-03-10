@@ -1,0 +1,29 @@
+.container-fluid {
+    height: 60px;
+    display: flex;
+}
+
+.search-box {
+    display: flex;
+    height: 60%;
+    width: 600px;
+}
+
+.button-search {
+    height: 40px;
+    width: 150px;
+}
+
+@media (max-width: 767px) { /* Điều kiện trình duyệt di động */
+    .search-box {
+        max-width: 60%; /* Chiều rộng tối đa cho điều kiện trình duyệt di động */
+    }
+
+    .button-search {
+        width: 50%; /* Chiều rộng 100% cho điều kiện trình duyệt di động */
+    }
+    .dropdown {
+        width: 60%;
+    }
+}
+
