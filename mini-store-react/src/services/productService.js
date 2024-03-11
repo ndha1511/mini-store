@@ -17,3 +17,16 @@ export const getProductsByCategoryId = async (categoryId, page, limit, sort = 'c
         return Promise.reject(error);
     }
 }
+
+export const getProductById = async (productId) => {
+    try {
+        const response = await requestApi(`/products/${productId}`, "GET", [], false);
+        return response.data;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+export function formatVND(number) {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+}

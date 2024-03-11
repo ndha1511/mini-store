@@ -24,6 +24,11 @@ function Home({cb, categoryId}) {
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(page - 1);
     const [totalPages, setTotalPages] = useState(1);
+
+    const carousels = [
+        {imageUrl: 'https://kkfashion.vn/wp-content/uploads/2018/10/kk-fashion-big-sale-off-2018.jpg'},
+        {imageUrl: 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/27f1ce107056811.5f9e69654c37d.jpg'}, 
+    ]
     
     // console.log(page, limit);
     const sortPrice = [
@@ -73,9 +78,9 @@ function Home({cb, categoryId}) {
 
     const onLast = () => {
         if(sort !== "createdAt" && des !== true)
-            navigate(`${window.location.pathname}?page=${totalPages - 1}&limit=${limit}&sort=${sortBy}&desc=${desc}`);
+            navigate(`${window.location.pathname}?page=${totalPages}&limit=${limit}&sort=${sortBy}&desc=${desc}`);
         else
-            navigate(`${window.location.pathname}?page=${totalPages - 1}&limit=${limit}`);
+            navigate(`${window.location.pathname}?page=${totalPages}&limit=${limit}`);
         
         setCurrentPage(() => totalPages - 1);
     }
@@ -102,11 +107,14 @@ function Home({cb, categoryId}) {
         setSortBy(() => sortBy);
     }
 
+    const clickCard = (productId) => {
+        navigate("/chi-tiet-san-pham?id=" + productId);
+    }
     
     return (
         <div className="wrapper">
-            <CarouselsCustom />
-            <div>
+            <CarouselsCustom dataRender={carousels} width={"100%"} height={300}/>
+            <div className="container">
                 <h3>Danh sách sản phẩm</h3>
                 <h5>Sắp xếp theo: </h5>
                 <div className="box-sort">
@@ -121,6 +129,8 @@ function Home({cb, categoryId}) {
                                 productName={item.name}
                                 price={item.price}
                                 key={index}
+                                productId={item.id}
+                                click={clickCard}
                             />
                         );
                     }) : <div className="empty-product"><h2>Hiện chưa có sản phẩm nào</h2></div>}
