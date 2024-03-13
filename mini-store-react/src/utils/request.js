@@ -12,10 +12,10 @@ export default function requestApi(endpoint, method, body, isInterceptors) {
     if (isInterceptors) {
         instance.interceptors.request.use(
             (config) => {
-                if(!config.url.includes("/refreshToken")) {
+                if(!config.url.includes("/refresh-token")) {
                     if (token) {
                         const tokenRequest = JSON.parse(token);
-                        config.headers['Authorization'] = `Bearer ${tokenRequest.token}`;
+                        config.headers['Authorization'] = `Bearer ${tokenRequest.access_token}`;
                         console.log(config.headers['Authorization'])
                     }
                 }
@@ -38,7 +38,7 @@ export default function requestApi(endpoint, method, body, isInterceptors) {
                         
                         if (token) {
                             const tokenRequest = JSON.parse(token);
-                            const result = await instance.post(`/auth/refreshToken`, { refreshToken: tokenRequest.refreshToken })
+                            const result = await instance.post(`/auth/refresh-token`, { refreshToken: tokenRequest.refresh_token })
                             const newToken = result.data;
                             localStorage.setItem('token', JSON.stringify(newToken));
                             console.log("set new token", newToken);

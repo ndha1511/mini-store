@@ -1,5 +1,6 @@
 package com.project.miniStore.controllers;
 
+import com.project.miniStore.dtos.RefreshTokenRequest;
 import com.project.miniStore.dtos.TokenRequest;
 import com.project.miniStore.dtos.UserDTO;
 import com.project.miniStore.dtos.UserLoginDTO;
@@ -33,7 +34,8 @@ public class UserController {
             }
             if(!userDTO.getPassword().equals(userDTO.getRetypePassword()))
                 return ResponseEntity.badRequest().body("retype password not like password");
-            return ResponseEntity.ok(userService.createUser(userDTO));
+            userService.createUser(userDTO);
+            return ResponseEntity.ok("create user successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -68,5 +70,15 @@ public class UserController {
             return ResponseEntity.ok(userLoginResponse);
         return ResponseEntity.badRequest().body("token expired");
     }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        try {
+            return ResponseEntity.ok(userService.refreshToken(refreshTokenRequest.getRefreshToken()));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body("refresh token is not successfully");
+        }
+    }
+
 
 }

@@ -5,8 +5,10 @@ import com.project.miniStore.dtos.TokenRequest;
 import com.project.miniStore.dtos.UserDTO;
 import com.project.miniStore.exceptions.DataNotFoundException;
 import com.project.miniStore.models.Role;
+import com.project.miniStore.models.Token;
 import com.project.miniStore.models.User;
 import com.project.miniStore.repositories.RoleRepository;
+import com.project.miniStore.repositories.TokenRepository;
 import com.project.miniStore.repositories.UserRepository;
 import com.project.miniStore.responses.UserLoginResponse;
 import com.project.miniStore.responses.UserResponse;
@@ -29,6 +31,7 @@ public class UserService implements IUserService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder encoder;
+    private final TokenRepository tokenRepository;
 
     @Override
     public User createUser(UserDTO userDTO) throws Exception {
@@ -68,7 +71,7 @@ public class UserService implements IUserService {
             UserLoginResponse userLoginResponse = new UserLoginResponse();
             var jwt = jwtService.generateToken(new UserDetailConfig(user));
             var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), new UserDetailConfig(user));
-            userLoginResponse.setToken(jwt);
+            userLoginResponse.setAccessToken(jwt);
             userLoginResponse.setRefreshToken(refreshToken);
             return userLoginResponse;
         }
@@ -99,10 +102,25 @@ public class UserService implements IUserService {
 
 
         String newToken = jwtService.generateToken(userDetailConfig);
-        userLoginResponse.setToken(newToken);
+        userLoginResponse.setAccessToken(newToken);
         userLoginResponse.setRefreshToken(tokenRequest.getRefreshToken());
 
 
         return userLoginResponse;
+    }
+
+    @Override
+    public UserLoginResponse refreshToken(String refreshToken) throws Exception {
+
+            String phoneNumber = jwtService.extractUsername(refreshToken);
+            User user = userRepository.findByPhoneNumber(phoneNumber)
+                    .orElseThrow(() -> new UsernameNotFoundException("not found"));
+            UserDetailConfig userDetailConfig = new UserDetailConfig(user);
+            String newToken = jwtService.generateToken(userDetailConfig);
+
+            return UserLoginResponse.builder()
+                    .accessToken(newToken)
+                    .refreshToken(refreshToken)
+                    .build();
     }
 }

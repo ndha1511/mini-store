@@ -47,7 +47,7 @@ public class SecurityConfig {
                     author.requestMatchers(
                             "/api/v1/users/register",
                             "/api/v1/users/login", 
-                            "/api/v1/users/invalidToken",
+                            "/api/v1/users/refresh-token",
                             "/cloudinary/upload/**")
                             .permitAll();
                     author.requestMatchers(HttpMethod.GET, "api/v1/products/**")

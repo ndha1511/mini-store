@@ -7,12 +7,15 @@ import TrTableCustom from './trTable';
 import { useSelector } from 'react-redux';
 import * as formik from 'formik';
 import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 function Cart() {
     const [cart, setCart] = useState([]);
     const isCart = useSelector((state) => state.addToCart.cart);
     let totalMoney = 0;
     const [reRender, setReRender] = useState(false);
     const { Formik } = formik;
+    const user = useSelector((state) => state.user.user);
+    const navigate = useNavigate();
 
     const trimTrailingWhitespace = value => value.replace(/\s+$/, '');
     const schema = yup.object().shape({
@@ -85,11 +88,13 @@ function Cart() {
                 
                 <Formik
                     validationSchema={schema}
-                    onSubmit={(values) => console.log(values)}
+                    onSubmit={(values) => {
+                        if(!user) navigate('/dang-nhap')
+                    }}
                     initialValues={{
-                        fullName: '',
-                        phoneNumber: '',
-                        address: '',
+                        fullName: user ? user.fullName : '',
+                        phoneNumber: user ? user.phoneNumber : '',
+                        address: user && user.address ? user.address: '',
                         paymentMethod: 'cod',
                     }}
                 >

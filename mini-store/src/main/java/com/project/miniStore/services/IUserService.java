@@ -11,5 +11,6 @@ public interface IUserService {
     UserLoginResponse login(String phoneNumber, String password) throws Exception;
     UserResponse findByPhoneNumber(String phoneNumber) throws Exception;
     UserLoginResponse checkInvalidToken(TokenRequest tokenRequest) throws Exception;
+    UserLoginResponse refreshToken(String refreshToken) throws Exception;
 
 }

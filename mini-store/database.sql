@@ -53,6 +53,11 @@ create table categories(
     name varchar(100) not null default '' comment 'tên danh mục, vd: đồ điện tử'
 );
 
+create table group_products(
+    id int primary key auto_increment,
+    name varchar(100) not null default '' comment 'những thứ chung chung như thời trang nam, thời trang nữ...'
+);
+
 create table products(
     id int primary key auto_increment,
     name varchar(350) comment 'tên sản phẩm',
@@ -63,6 +68,40 @@ create table products(
     updated_at datetime,
     category_id int,
     foreign key (category_id) references categories(id)
+);
+alter table products
+add group_product_id int;
+
+alter table products
+add quantity int;
+
+alter table products
+add email varchar(255);
+
+alter table products
+add constraint fk_groupId foreign key (group_product_id) references group_products(id);
+
+create table sizes(
+    id int primary key auto_increment,
+    text_size varchar(20),
+    num_size int,
+    size_type enum('TEXT', 'NUMBER') comment 'Các loại text size là XL L, các loại number size là số giày'
+);
+create table colors(
+    id int primary key auto_increment,
+    color_name varchar(100) not null default 'Trắng',
+    color_code varchar(100) not null default '#fff'
+);
+
+create table product_details(
+    product_id int,
+    size_id int,
+    color_id int,
+    primary key (product_id, size_id, color_id),
+    foreign key (product_id) references products(id),
+    foreign key (size_id) references sizes(id),
+    foreign key (color_id) references colors(id),
+    quantity int
 );
 
 create table orders(
