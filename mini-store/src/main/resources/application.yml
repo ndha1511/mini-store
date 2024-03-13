@@ -1,6 +1,14 @@
 api:
   prefix: api/v1
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 419212927192-l5absb4546poovhbqe571jiq5vna5dhi.apps.googleusercontent.com
+            client-secret: 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
+
   servlet:
     multipart:
       max-file-size: 10MB

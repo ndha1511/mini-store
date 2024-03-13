@@ -1,16 +1,43 @@
 import { useState } from "react";
 
-function ButtonHover({ className = '', color,  colorHover, borderColor, borderColorHover, content }) {
+
+function ButtonHover({
+    color,
+    colorHover,
+    borderColor,
+    borderColorHover,
+    content,
+    click = () => false,
+    action = () => false,
+    active = false,
+    index,
+    width = 50,
+    height = 30,
+    disabled = false,
+     }) {
+ 
     const [colorHV, setColorHV] = useState(color);
-    const [boderColorHV, setBorderColorHV] = useState(borderColor);
+    
+    const [borderColorHV, setBorderColorHV] = useState(borderColor);
     return (
         <button
-            className={className}
-            onMouseEnter={() => {setColorHV(colorHover); setBorderColorHV(borderColorHover);}}
-            onMouseLeave={() => {setColorHV(color); setBorderColorHV(borderColor);}}
+            disabled={disabled}
+            onClick={() => {click(index); action();}}
+            onMouseEnter={() => { setColorHV(colorHover); setBorderColorHV(borderColorHover); }}
+            onMouseLeave={() => { 
+                setColorHV(color); setBorderColorHV(borderColor);
+            }}
             style={{
-                color: colorHV,
-                borderColor: boderColorHV
+                color: active ? colorHover : colorHV,
+                borderColor: active ? borderColorHover : borderColorHV,
+                width: width,
+                height: height,
+                backgroundColor: disabled ? 'gray'  : "#fff",
+                opacity: disabled ? 0.4 : 1,
+                borderRadius: "5px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
             }}
         >
             {content}

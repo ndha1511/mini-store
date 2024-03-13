@@ -15,7 +15,7 @@ function Home({cb, categoryId}) {
     let sort = currentParams.get("sort");
     let des = currentParams.get("desc");
     if(!page) page = 1;
-    if(!limit) limit = 10;
+    if(!limit) limit = 12;
     if(!sort) sort = "createdAt";
     if(!des) des = true;
     const [sortBy, setSortBy] = useState(sort);
@@ -40,6 +40,7 @@ function Home({cb, categoryId}) {
         {name: "Cũ nhất", sortBy: "createdAt", desc: false}
     ]
     useEffect(() => {
+        document.title = "Trang chủ";
         if(categoryId) {
             cb(categoryId, currentPage, limit, sortBy, desc)
             .then((resp) => {
@@ -48,10 +49,8 @@ function Home({cb, categoryId}) {
             })
             .catch((err) => console.log(err));
         } else {
-            console.log(page, limit, sortBy, desc);
             cb(currentPage, limit, sortBy, desc)
             .then((resp) => {
-                console.log(resp)
                 setProducts(() => [...resp.products]);
                 setTotalPages(() => resp.totalPage);
             })
@@ -107,8 +106,8 @@ function Home({cb, categoryId}) {
         setSortBy(() => sortBy);
     }
 
-    const clickCard = (productId) => {
-        navigate("/chi-tiet-san-pham?id=" + productId);
+    const clickCard = (productId, productName) => {
+        navigate("/chi-tiet-san-pham?id=" + productId + '&name=' + productName);
     }
     
     return (

@@ -8,7 +8,7 @@ function CardCustom({src, productName, price, click, productId}) {
     return (
         <Card 
         style={{ width: '18rem', margin: 5 }} 
-        onClick={() => click(productId)} 
+        onClick={() => click(productId, productName)} 
         bg={bg} 
         onMouseEnter={() => setBg('info')}
         onMouseLeave={() => setBg('light')}
