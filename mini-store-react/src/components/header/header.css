@@ -5,7 +5,6 @@
 
 .search-box {
     display: flex;
-    height: 60%;
     width: 600px;
 }
 
@@ -16,7 +15,7 @@
 
 @media (max-width: 767px) { /* Điều kiện trình duyệt di động */
     .search-box {
-        max-width: 60%; /* Chiều rộng tối đa cho điều kiện trình duyệt di động */
+        max-width: 100%; /* Chiều rộng tối đa cho điều kiện trình duyệt di động */
     }
 
     .button-search {

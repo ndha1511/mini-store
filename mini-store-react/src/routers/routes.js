@@ -1,3 +1,5 @@
+import Dashboard from "../admin/dashboard/dashboard";
+import DashboardLayout from "../layouts/dashboard/dashboardLayout";
 import Cart from "../pages/cart/cart";
 import Home from "../pages/home/home";
 import Login from "../pages/login/login";
@@ -14,5 +16,6 @@ export const routes = [
     { path: '/chi-tiet-san-pham', component: ProductDetail},
     { path: '/gio-hang', component: Cart},
     { path: '/dang-nhap', component: Login, layout: null},
-    { path: '/dang-ky', component: Register, layout: null},
+    { path: '/dang-ky', component: Register, layout: null}, 
+    { path: '/dashboard', component: Dashboard, layout: DashboardLayout},
 ]

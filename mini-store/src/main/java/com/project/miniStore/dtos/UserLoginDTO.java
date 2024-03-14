@@ -9,4 +9,5 @@ public class UserLoginDTO {
     private String phoneNumber;
     @NotBlank(message = "password number is required")
     private String password;
+    private boolean admin;
 }

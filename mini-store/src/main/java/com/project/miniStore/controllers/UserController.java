@@ -43,14 +43,19 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> register(@Valid @RequestBody UserLoginDTO userLoginDTO,
-                                      BindingResult result) throws Exception {
+                                      BindingResult result)  {
         if(result.hasErrors()) {
             List<String> errMessages = result.getFieldErrors()
                     .stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .toList();
         }
-        return ResponseEntity.ok(userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword()));
+
+        try {
+            return ResponseEntity.ok(userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword(), userLoginDTO.isAdmin()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("invalid phone number or password");
+        }
     }
 
     @GetMapping("/{phoneNumber}")

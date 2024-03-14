@@ -58,8 +58,8 @@ function Header() {
                     </Button>
                     {user ?
                      
-                            <Dropdown style={{marginRight: "40px"}}>
-                                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            <Dropdown className='me-5'>
+                                <Dropdown.Toggle variant="success" id="dropdown-basic" className='me-5'>
                                     {user.fullName}
                                 </Dropdown.Toggle>
 

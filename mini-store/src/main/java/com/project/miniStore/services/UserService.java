@@ -59,15 +59,23 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserLoginResponse login(String phoneNumber, String password) throws Exception {
+    public UserLoginResponse login(String phoneNumber, String password, boolean isAdmin) throws Exception {
         Optional<User> optionalUser = userRepository.findByPhoneNumber(phoneNumber);
         if (optionalUser.isEmpty()) {
-            return null;
+            throw new DataNotFoundException("user not found");
         } else {
+
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(phoneNumber, password)
             );
             User user = optionalUser.get();
+            if(isAdmin) {
+                if (user.getRole().getId() != 2)
+                    throw new Exception("role must be admin");
+            } else {
+                if (user.getRole().getId() != 1)
+                    throw new Exception("role must be user");
+            }
             UserLoginResponse userLoginResponse = new UserLoginResponse();
             var jwt = jwtService.generateToken(new UserDetailConfig(user));
             var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), new UserDetailConfig(user));

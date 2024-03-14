@@ -10,17 +10,18 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "product_details")
-@IdClass(ProductDetailId.class)
 public class ProductDetail {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-    @Id
+
     @ManyToOne
     @JoinColumn(name = "size_id")
     private Size size;
-    @Id
+
     @ManyToOne
     @JoinColumn(name = "color_id")
     private Color color;

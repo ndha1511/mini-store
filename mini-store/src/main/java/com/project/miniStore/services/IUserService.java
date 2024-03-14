@@ -8,7 +8,7 @@ import com.project.miniStore.responses.UserResponse;
 
 public interface IUserService {
     User createUser(UserDTO userDTO) throws Exception;
-    UserLoginResponse login(String phoneNumber, String password) throws Exception;
+    UserLoginResponse login(String phoneNumber, String password, boolean isAdmin) throws Exception;
     UserResponse findByPhoneNumber(String phoneNumber) throws Exception;
     UserLoginResponse checkInvalidToken(TokenRequest tokenRequest) throws Exception;
     UserLoginResponse refreshToken(String refreshToken) throws Exception;
